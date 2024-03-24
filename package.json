@@ -1,0 +1,15 @@
+{
+  "name": "top-template1",
+  "version": "1.0.0",
+  "description": "First template post linting module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack --watch --mode development"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
