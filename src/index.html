@@ -5,7 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WeatherApp</title>
     <link rel="stylesheet" href="./styles.css" />
-    <script src="./index.js"></script>
+    <script src="./index.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <div class="top-section">
+      <h2>
+        Weather Forecast
+        <img id="logo" src="../images/weather.png" />
+      </h2>
+      <form>
+        <div id="searchbar">
+          <input id="input" />
+          <button id="searchButton"><img src="../images/magnify.svg" /></button>
+        </div>
+        <div id="temperature-units-button-container">
+          <button>°F / mph</button>
+          <button>°C / kph</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="mid-section">
+      <div id="date-location-container">
+        <h2 id="location">
+          Location :
+          <span id="locationSpan"></span>
+        </h2>
+        <p id="date"></p>
+        <p id="current-weather"></p>
+      </div>
+
+      <div id="weather-info">
+        <div class="card">
+          <p id="today-temp" class="temperature"></p>
+          <span class="units"></span>
+        </div>
+        <div class="card"><img id="weather-img" /></div>
+        <div class="card" id="extra-info-card">
+          <p class="extra-weather-info" class="temperature">
+            Feels Like:
+            <span id="feels-like-p"></span>
+            <span class="units"></span>
+          </p>
+          <p class="extra-weather-info">
+            Humidity :
+            <span id="humidity-p"></span>
+          </p>
+          <p class="extra-weather-info">
+            Wind :
+            <span id="wind-p"></span>
+            <span id="wind-unit"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h3>3-Day Forecast</h3>
+    <div class="bottom-section">
+      <div class="forecast-card" id="forecast-card-day1">
+        <h4></h4>
+        <h3></h3>
+        <img />
+
+        <div class="temperature-info">
+          <div class="temperature-container">
+            <p id="current-temp" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+          <div class="temperature-container">
+            <p id="low" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+          <div class="temperature-container">
+            <p id="high" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+        </div>
+      </div>
+      <div class="forecast-card" id="forecast-card-day2">
+        <h4></h4>
+        <h3></h3>
+        <img />
+
+        <div class="temperature-info">
+          <div class="temperature-container">
+            <p id="current-temp" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+          <div class="temperature-container">
+            <p id="low" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+          <div class="temperature-container">
+            <p id="high" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+        </div>
+      </div>
+      <div class="forecast-card" id="forecast-card-day3">
+        <h4></h4>
+        <h3></h3>
+        <img />
+
+        <div class="temperature-info">
+          <div class="temperature-container">
+            <p id="current-temp" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+          <div class="temperature-container">
+            <p id="low" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+          <div class="temperature-container">
+            <p id="high" class="temperature"></p>
+            <span class="units"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
