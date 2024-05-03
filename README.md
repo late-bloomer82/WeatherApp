@@ -1,6 +1,4 @@
-# TOP-template1
-
-First template post linting module.
+Note to self
 
 1.Need to get used to linting tools.
 2.Commit more often
