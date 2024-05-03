@@ -79,7 +79,6 @@ searchButton.addEventListener('click', async (event) => {
   const inputValue = getCityValue();
   try {
     const response = await getResponse(inputValue);
-    console.log(response);
     populatePage(response);
   } catch (error) {
     console.log('Error fetching weather data:', error);
