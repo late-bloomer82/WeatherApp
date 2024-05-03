@@ -19,8 +19,8 @@
           <button id="searchButton"><img src="../images/magnify.svg" /></button>
         </div>
         <div id="temperature-units-button-container">
-          <button>°F / mph</button>
-          <button>°C / kph</button>
+          <button id="fahrenheit">°F / mph</button>
+          <button id="celcius">°C / kph</button>
         </div>
       </form>
     </div>
@@ -31,20 +31,20 @@
           Location :
           <span id="locationSpan"></span>
         </h2>
-        <p id="date"></p>
-        <p id="current-weather"></p>
+        <h3 id="date"></h3>
+        <h3 id="current-weather"></h3>
       </div>
 
       <div id="weather-info">
         <div class="card">
           <p id="today-temp" class="temperature"></p>
-          <span class="units"></span>
+          <span class="units" id="today-temp-unit"></span>
         </div>
         <div class="card"><img id="weather-img" /></div>
         <div class="card" id="extra-info-card">
-          <p class="extra-weather-info" class="temperature">
+          <p class="extra-weather-info">
             Feels Like:
-            <span id="feels-like-p"></span>
+            <span id="feels-like-p" class="temperature"></span>
             <span class="units"></span>
           </p>
           <p class="extra-weather-info">
@@ -53,7 +53,7 @@
           </p>
           <p class="extra-weather-info">
             Wind :
-            <span id="wind-p"></span>
+            <span id="wind-s"></span>
             <span id="wind-unit"></span>
           </p>
         </div>
