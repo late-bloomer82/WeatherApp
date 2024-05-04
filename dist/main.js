@@ -1,35 +1,169 @@
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
-/******/ (() => {
-  // webpackBootstrap
-  /******/ var __webpack_modules__ = {
-    /***/ './index.js':
-      /*!******************!*\
-  !*** ./index.js ***!
-  \******************/
-      /***/ () => {
-        eval(
-          "// Select all html elements required for page population\nconst unitSpans = document.querySelectorAll('.units');\nconst fahrenheitButton = document.getElementById('fahrenheit');\nconst celciusButton = document.getElementById('celcius');\nconst windUnitSpan = document.getElementById('wind-unit');\nconst inputElement = document.getElementById('input');\nconst searchButton = document.getElementById('searchButton');\nconst dateHeading = document.getElementById('date');\nconst locationSpan = document.getElementById('locationSpan');\nconst currentWeatherP = document.getElementById('current-weather');\nconst todayTempParagraph = document.getElementById('today-temp');\nconst weatherImg = document.getElementById('weather-img');\nconst feelsLikeParagraph = document.getElementById('feels-like-p');\nconst humidityParagraph = document.getElementById('humidity-p');\nconst windSpan = document.getElementById('wind-s');\nconst day1DateHeading = document.querySelector('#forecast-card-day1 h4');\nconst day1WeatherHeading = document.querySelector('#forecast-card-day1 h3');\nconst day1WeatherImg = document.querySelector('#forecast-card-day1 img');\nconst day1CurrentTempParagraph = document.querySelector(\n  '#forecast-card-day1 #current-temp',\n);\nconst day1LowParagraph = document.querySelector('#forecast-card-day1 #low');\nconst day1HighParagraph = document.querySelector('#forecast-card-day1 #high');\n\nconst day2DateHeading = document.querySelector('#forecast-card-day2 h4');\nconst day2WeatherHeading = document.querySelector('#forecast-card-day2 h3');\nconst day2WeatherImg = document.querySelector('#forecast-card-day2 img');\nconst day2CurrentTempParagraph = document.querySelector(\n  '#forecast-card-day2 #current-temp',\n);\nconst day2LowParagraph = document.querySelector('#forecast-card-day2 #low');\nconst day2HighParagraph = document.querySelector('#forecast-card-day2 #high');\nconst day3DateHeading = document.querySelector('#forecast-card-day3 h4');\nconst day3WeatherHeading = document.querySelector('#forecast-card-day3 h3');\nconst day3WeatherImg = document.querySelector('#forecast-card-day3 img');\nconst day3CurrentTempParagraph = document.querySelector(\n  '#forecast-card-day3 #current-temp',\n);\nconst day3LowParagraph = document.querySelector('#forecast-card-day3 #low');\nconst day3HighParagraph = document.querySelector('#forecast-card-day3 #high');\n\nfunction getCityValue() {\n  const inputValue = inputElement.value;\n  return inputValue;\n}\n\nasync function getResponse(city) {\n  const response = await fetch(\n    `http://api.weatherapi.com/v1/forecast.json?key=4431d0b0cbb648bca1b25001241503&q=${city}&days=3`,\n    {\n      mode: 'cors',\n    },\n  );\n  return response.json();\n}\n\n// Webpage default state\n(async () => {\n  const response = await getResponse('montreal');\n  populatePage(response);\n})();\n\n// Date format\nconst options = {\n  weekday: 'short',\n  year: 'numeric',\n  day: 'numeric',\n  month: 'long',\n};\n\n// Instantly invoked\n(function getCurrentDate() {\n  const currentDate = new Date();\n  dateHeading.textContent = currentDate.toLocaleDateString(undefined, options);\n})();\n\nsearchButton.addEventListener('click', async (event) => {\n  event.preventDefault();\n  const inputValue = getCityValue();\n  try {\n    const response = await getResponse(inputValue);\n    populatePage(response);\n  } catch (error) {\n    console.log('Error fetching weather data:', error);\n  }\n});\n// unitsButtonToggle for button control\nlet unitsButtonToggle = true;\n\n// Unit Conversions on button click\nfahrenheitButton.addEventListener('click', (event) => {\n  event.preventDefault();\n  if (unitsButtonToggle) {\n    fahrenheitButton.disabled = true;\n    celciusButton.disabled = false;\n    convertUnits('fahrenheit');\n    unitsButtonToggle = false;\n  }\n});\n\n// Default button state is disabled since the default data is in celcius\ncelciusButton.disabled = true;\n\ncelciusButton.addEventListener('click', (event) => {\n  event.preventDefault();\n  if (unitsButtonToggle) {\n    celciusButton.disabled = true;\n  } else {\n    convertUnits('celcius');\n    celciusButton.disabled = true;\n    fahrenheitButton.disabled = false;\n    unitsButtonToggle = true;\n  }\n});\n\nfunction stringToInteger(string) {\n  const number = parseInt(string, 10);\n  return number;\n}\nfunction stringToFloat(string) {\n  const number = parseFloat(string);\n  return number;\n}\nfunction roundNumber(number) {\n  const roundedNumber = Math.round(number);\n  return roundedNumber;\n}\n\nfunction convertUnits(type) {\n  if (type === 'celcius') {\n    // Convert value\n\n    // fahrenheit to Celcius conversion\n    const temperatureElements = document.querySelectorAll('.temperature');\n    temperatureElements.forEach((element) => {\n      const temperatureStringValue = element.textContent;\n      const temperatureValue = stringToInteger(temperatureStringValue);\n      const celcius = ((temperatureValue - 32) * 5) / 9;\n      const roundedCelciusValue = roundNumber(celcius);\n      element.textContent = roundedCelciusValue;\n    });\n\n    // Wind Mph to Kph conversion\n    const windSpan = document.getElementById('wind-s');\n    const windSpanString = windSpan.textContent;\n    const MphWindValue = stringToFloat(windSpanString);\n    const KphValue = MphWindValue * 1.609;\n    const roundedKphWindValue = KphValue.toFixed(1);\n    windSpan.textContent = roundedKphWindValue;\n\n    // Change unit text\n    const unitSpans = document.querySelectorAll('.units');\n    const windUnitSpan = document.getElementById('wind-unit');\n    windUnitSpan.textContent = 'Kph';\n    unitSpans.forEach((span) => {\n      span.textContent = '°C';\n    });\n  } else if (type === 'fahrenheit') {\n    // Convert value\n\n    // Celcius to fahrenheit conversion\n    const temperatureElements = document.querySelectorAll('.temperature');\n    temperatureElements.forEach((element) => {\n      const temperatureStringValue = element.textContent;\n      const temperatureValue = stringToInteger(temperatureStringValue);\n      const fahrenheit = (temperatureValue * 9) / 5 + 32;\n      const roundedfahrenheitValue = roundNumber(fahrenheit);\n      element.textContent = roundedfahrenheitValue;\n    });\n\n    // Wind Kph to Mph conversion\n    const windSpan = document.getElementById('wind-s');\n    const windSpanString = windSpan.textContent;\n    const KphWindValue = stringToFloat(windSpanString);\n    const MphWindValue = KphWindValue / 1.609;\n    const roundedMphWindValue = MphWindValue.toFixed(1);\n    windSpan.textContent = roundedMphWindValue;\n\n    // Change unit text\n    const unitSpans = document.querySelectorAll('.units');\n    const windUnitSpan = document.getElementById('wind-unit');\n    windUnitSpan.textContent = 'Mph';\n    unitSpans.forEach((span) => {\n      span.textContent = '°F';\n    });\n  }\n}\n\nfunction populatePage(response) {\n  // Mid section\n  locationSpan.textContent = response.location.name;\n  currentWeatherP.textContent = response.current.condition.text;\n  todayTempParagraph.textContent = Math.round(\n    parseFloat(response.current.temp_c),\n  );\n  weatherImg.src = `https:${response.current.condition.icon}`;\n  feelsLikeParagraph.textContent = Math.round(\n    parseFloat(response.current.feelslike_c),\n  );\n  humidityParagraph.textContent = `${response.current.humidity}%`;\n  windSpan.textContent = Math.round(parseFloat(response.current.wind_kph));\n\n  // Bottom section\n  // Day1\n  const day1Date = response.forecast.forecastday[0].date;\n  const day1DateObject = new Date(day1Date);\n  const formattedDay1Date = day1DateObject.toLocaleDateString(\n    undefined,\n    options,\n  );\n  day1DateHeading.textContent = formattedDay1Date;\n\n  day1WeatherHeading.textContent =\n    response.forecast.forecastday[0].day.condition.text;\n  day1WeatherImg.src = `https:${response.forecast.forecastday[0].day.condition.icon}`;\n\n  day1CurrentTempParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[0].day.avgtemp_c),\n  );\n  day1LowParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[0].day.mintemp_c),\n  );\n  day1HighParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[0].day.maxtemp_c),\n  );\n\n  // Day2\n  const day2Date = response.forecast.forecastday[1].date;\n  const day2DateObject = new Date(day2Date);\n  const formattedDay2Date = day2DateObject.toLocaleDateString(\n    undefined,\n    options,\n  );\n  day2DateHeading.textContent = formattedDay2Date;\n  day2WeatherHeading.textContent =\n    response.forecast.forecastday[1].day.condition.text;\n  day2WeatherImg.src = `https:${response.forecast.forecastday[1].day.condition.icon}`;\n\n  day2CurrentTempParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[1].day.avgtemp_c),\n  );\n  day2LowParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[1].day.mintemp_c),\n  );\n  day2HighParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[1].day.maxtemp_c),\n  );\n\n  // Day3\n  const day3Date = response.forecast.forecastday[2].date;\n  const day3DateObject = new Date(day3Date);\n  const formattedDay3Date = day3DateObject.toLocaleDateString(\n    undefined,\n    options,\n  );\n  day3DateHeading.textContent = formattedDay3Date;\n  day3WeatherHeading.textContent =\n    response.forecast.forecastday[2].day.condition.text;\n  day3WeatherImg.src = `https:${response.forecast.forecastday[2].day.condition.icon}`;\n  day3CurrentTempParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[2].day.avgtemp_c),\n  );\n  day3LowParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[2].day.mintemp_c),\n  );\n  day3HighParagraph.textContent = Math.round(\n    parseFloat(response.forecast.forecastday[2].day.maxtemp_c),\n  );\n\n  // Give every temperature their respective unit\n  unitSpans.forEach((span) => {\n    span.textContent = '°C';\n  });\n\n  windUnitSpan.textContent = 'Kph';\n}\n\n\n//# sourceURL=webpack://top-template1/./index.js?",
-        );
-
-        /***/
-      },
-
-    /******/
+(() => {
+  const t = document.querySelectorAll('.units'),
+    e = document.getElementById('fahrenheit'),
+    o = document.getElementById('celcius'),
+    n = document.getElementById('wind-unit'),
+    a = document.getElementById('input'),
+    c = document.getElementById('searchButton'),
+    r = document.getElementById('date'),
+    d = document.getElementById('locationSpan'),
+    s = document.getElementById('current-weather'),
+    u = document.getElementById('today-temp'),
+    y = document.getElementById('weather-img'),
+    l = document.getElementById('feels-like-p'),
+    i = document.getElementById('humidity-p'),
+    m = document.getElementById('wind-s'),
+    f = document.querySelector('#forecast-card-day1 h4'),
+    h = document.querySelector('#forecast-card-day1 h3'),
+    p = document.querySelector('#forecast-card-day1 img'),
+    x = document.querySelector('#forecast-card-day1 #current-temp'),
+    C = document.querySelector('#forecast-card-day1 #low'),
+    g = document.querySelector('#forecast-card-day1 #high'),
+    S = document.querySelector('#forecast-card-day2 h4'),
+    E = document.querySelector('#forecast-card-day2 h3'),
+    q = document.querySelector('#forecast-card-day2 img'),
+    w = document.querySelector('#forecast-card-day2 #current-temp'),
+    B = document.querySelector('#forecast-card-day2 #low'),
+    I = document.querySelector('#forecast-card-day2 #high'),
+    F = document.querySelector('#forecast-card-day3 h4'),
+    v = document.querySelector('#forecast-card-day3 h3'),
+    M = document.querySelector('#forecast-card-day3 img'),
+    _ = document.querySelector('#forecast-card-day3 #current-temp'),
+    b = document.querySelector('#forecast-card-day3 #low'),
+    D = document.querySelector('#forecast-card-day3 #high');
+  async function k(t) {
+    return (
+      await fetch(
+        `http://api.weatherapi.com/v1/forecast.json?key=4431d0b0cbb648bca1b25001241503&q=${t}&days=3`,
+        { mode: 'cors' },
+      )
+    ).json();
+  }
+  (async () => {
+    G(await k('montreal'));
+  })();
+  const L = {
+    weekday: 'short',
+    year: 'numeric',
+    day: 'numeric',
+    month: 'long',
   };
-  /************************************************************************/
-  /******/
-  /******/ // startup
-  /******/ // Load entry module and return exports
-  /******/ // This entry module can't be inlined because the eval devtool is used.
-  /******/ var __webpack_exports__ = {};
-  /******/ __webpack_modules__['./index.js']();
-  /******/
-  /******/
+  !(function () {
+    const t = new Date();
+    r.textContent = t.toLocaleDateString(void 0, L);
+  })(),
+    c.addEventListener('click', async (t) => {
+      t.preventDefault();
+      const e = a.value;
+      try {
+        G(await k(e));
+      } catch (t) {
+        console.log('Error fetching weather data:', t);
+      }
+    });
+  let $ = !0;
+  function A(t) {
+    return parseInt(t, 10);
+  }
+  function j(t) {
+    return parseFloat(t);
+  }
+  function K(t) {
+    return Math.round(t);
+  }
+  function z(t) {
+    if ('celcius' === t) {
+      document.querySelectorAll('.temperature').forEach((t) => {
+        const e = K((5 * (A(t.textContent) - 32)) / 9);
+        t.textContent = e;
+      });
+      const t = document.getElementById('wind-s'),
+        e = (1.609 * j(t.textContent)).toFixed(1);
+      t.textContent = e;
+      const o = document.querySelectorAll('.units');
+      (document.getElementById('wind-unit').textContent = 'Kph'),
+        o.forEach((t) => {
+          t.textContent = '°C';
+        });
+    } else if ('fahrenheit' === t) {
+      document.querySelectorAll('.temperature').forEach((t) => {
+        const e = K((9 * A(t.textContent)) / 5 + 32);
+        t.textContent = e;
+      });
+      const t = document.getElementById('wind-s'),
+        e = (j(t.textContent) / 1.609).toFixed(1);
+      t.textContent = e;
+      const o = document.querySelectorAll('.units');
+      (document.getElementById('wind-unit').textContent = 'Mph'),
+        o.forEach((t) => {
+          t.textContent = '°F';
+        });
+    }
+  }
+  function G(e) {
+    (d.textContent = e.location.name),
+      (s.textContent = e.current.condition.text),
+      (u.textContent = Math.round(parseFloat(e.current.temp_c))),
+      (y.src = `https:${e.current.condition.icon}`),
+      (l.textContent = Math.round(parseFloat(e.current.feelslike_c))),
+      (i.textContent = `${e.current.humidity}%`),
+      (m.textContent = Math.round(parseFloat(e.current.wind_kph)));
+    const o = e.forecast.forecastday[0].date,
+      a = new Date(o).toLocaleDateString(void 0, L);
+    (f.textContent = a),
+      (h.textContent = e.forecast.forecastday[0].day.condition.text),
+      (p.src = `https:${e.forecast.forecastday[0].day.condition.icon}`),
+      (x.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[0].day.avgtemp_c),
+      )),
+      (C.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[0].day.mintemp_c),
+      )),
+      (g.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[0].day.maxtemp_c),
+      ));
+    const c = e.forecast.forecastday[1].date,
+      r = new Date(c).toLocaleDateString(void 0, L);
+    (S.textContent = r),
+      (E.textContent = e.forecast.forecastday[1].day.condition.text),
+      (q.src = `https:${e.forecast.forecastday[1].day.condition.icon}`),
+      (w.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[1].day.avgtemp_c),
+      )),
+      (B.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[1].day.mintemp_c),
+      )),
+      (I.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[1].day.maxtemp_c),
+      ));
+    const k = e.forecast.forecastday[2].date,
+      $ = new Date(k).toLocaleDateString(void 0, L);
+    (F.textContent = $),
+      (v.textContent = e.forecast.forecastday[2].day.condition.text),
+      (M.src = `https:${e.forecast.forecastday[2].day.condition.icon}`),
+      (_.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[2].day.avgtemp_c),
+      )),
+      (b.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[2].day.mintemp_c),
+      )),
+      (D.textContent = Math.round(
+        parseFloat(e.forecast.forecastday[2].day.maxtemp_c),
+      )),
+      t.forEach((t) => {
+        t.textContent = '°C';
+      }),
+      (n.textContent = 'Kph');
+  }
+  e.addEventListener('click', (t) => {
+    t.preventDefault(),
+      $ && ((e.disabled = !0), (o.disabled = !1), z('fahrenheit'), ($ = !1));
+  }),
+    (o.disabled = !0),
+    o.addEventListener('click', (t) => {
+      t.preventDefault(),
+        $
+          ? (o.disabled = !0)
+          : (z('celcius'), (o.disabled = !0), (e.disabled = !1), ($ = !0));
+    });
 })();
