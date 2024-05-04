@@ -47,9 +47,6 @@ function getCityValue() {
 async function getResponse(city) {
   const response = await fetch(
     `https://api.weatherapi.com/v1/forecast.json?key=4431d0b0cbb648bca1b25001241503&q=${city}&days=3`,
-    {
-      mode: 'cors',
-    },
   );
   return response.json();
 }
